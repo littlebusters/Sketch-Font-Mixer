@@ -7,10 +7,7 @@
   "skpm": {
     "name": "Sketch-font-mixer",
     "manifest": "src/manifest.json",
-    "main": "plugin.sketchplugin",
-    "assets": [
-      "assets/**/*"
-    ]
+    "main": "plugin.sketchplugin"
   },
   "scripts": {
     "build": "skpm-build",
@@ -19,7 +16,16 @@
     "postinstall": "npm run build && skpm-link"
   },
   "devDependencies": {
-    "@skpm/builder": "^0.5.2"
+    "@skpm/builder": "^0.5.2",
+    "@skpm/extract-loader": "^2.0.2",
+    "css-loader": "^0.28.11",
+    "html-loader": "^0.5.5"
   },
-  "author": "littlebusters <little.busters.reply@gmail.com>"
+  "resources": [
+    "resources/**/*.js"
+  ],
+  "author": "littlebusters <little.busters.reply@gmail.com>",
+  "dependencies": {
+    "sketch-module-web-view": "^1.1.5"
+  }
 }

@@ -4,15 +4,16 @@
   "icon": "icon.png",
   "commands": [
     {
-      "name": "my-command",
-      "identifier": "my-command-identifier",
-      "script": "./my-command.js"
+      "name": "Font Mixer",
+      "identifier": "font-mixer-id",
+      "script": "./font-mixer.js",
+      "shortcut": "command control shift f"
     }
   ],
   "menu": {
-    "title": "Sketch-font-mixer",
+    "title": "Font Mixer",
     "items": [
-      "my-command-identifier"
+      "font-mixer-id"
     ]
   }
 }

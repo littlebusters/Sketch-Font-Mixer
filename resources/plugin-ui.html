@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Font mixer</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+		html {
+			font-family: -apple-system;
+			font-size: 13px;
+			background-color: #ececec;
+		}
+		h1 {
+			display: none;
+			font-size: 1em;
+		}
+		h2 {
+			font-size: 11px;
+			margin: 20px 0 5px;
+		}
+		h1 + section > h2 {
+			margin-top: 0;
+		}
+		p {
+			margin: 0;
+		}
+		#fontlist {
+			width: 100%;
+			box-sizing: border-box;
+			font-size: 13px;
+		}
+		.action-container {
+			text-align: center;
+		}
+		.target-group__roman,
+		.target-group__japanese {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 8px;
+			padding-bottom: 8px;
+			border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+		}
+		.target-group__roman > p,
+		.target-group__japanese > p {
+			width: 50%;
+		}
+		.custom-string {
+			width: 100%;
+			height: 6em;
+			margin-top: 4px;
+			border: 1px solid #cfcfcf;
+			box-sizing: border-box;
+			font-size: 13px;
+		}
+  </style>
+</head>
+<body>
+	<main>
+		<section>
+			<h1>Font Mixer for Sketch</h1>
+			<section>
+				<h2>Original font:</h2>
+				<p id="orgFont"></p>
+			</section>
+			<section>
+				<h2>Replace with:</h2>
+				<p id="repFont">
+					<select id="fontlist" name="fontList"></select>
+				</p>
+			</section>
+			<section>
+				<h2>Replacement target:</h2>
+				<div class="target-group__roman">
+					<p><label><input type="checkbox" name="targetString" value="uppercase" checked>Uppercase</label></p>
+					<p><label><input type="checkbox" name="targetString" value="lowercase" checked>Lowercase</label></p>
+					<p><label><input type="checkbox" name="targetString" value="number" checked>Number</label></p>
+					<p><label><input type="checkbox" name="targetString" value="symbol" checked>Symbol</label></p>
+				</div>
+				<div class="target-group__japanese">
+					<p><label><input type="checkbox" name="targetString" value="hiragana">Hiragana</label></p>
+					<p><input type="checkbox" name="targetString" value="katakana" id="katakana"><label for="katakana">Katakana</label></p>
+				</div>
+				<div class="target-group__custom">
+					<p>
+						<label><input type="checkbox" name="targetString" value="custom">Custom</label>
+						<textarea name="customString" id="customString" class="custom-string" placeholder="Custom String..."></textarea>
+					</p>
+				</div>
+			</section>
+		</section>
+	</main>
+	<footer class="action-container">
+		<button id="mixing">Mixing!</button>
+	</footer>
+
+  <div>
+    <button id="button">Get a random number</button>
+  </div>
+  
+  <div id="answer"></div>
+  <div id="logs"></div>
+
+  <!-- notice the "../" here. It's because webview.js will be compiled in a different folder -->
+  <script src="../plugin-ui.js"></script>
+</body>
+</html>
