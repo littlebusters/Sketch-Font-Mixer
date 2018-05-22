@@ -1,28 +1,123 @@
-/* some default styles to make the view more native like */
-
-html {
-  box-sizing: border-box;
-  background: #ff0000;
-
-  /* Prevent the page to be scrollable */
-  overflow: hidden;
-
-  /* Force the default cursor, even on text */
-  cursor: default;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-  position: relative;
-
-  /* Prevent the content from being selectionable */
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-input, textarea {
+ *, *:before, *:after {
   -webkit-user-select: auto;
   user-select: auto;
+}
+
+html {
+  overflow: hidden;
+  cursor: default;
+	font-family: -apple-system;
+	font-size: 13px;
+	background-color: #ececec;
+}
+body {
+	margin: 0;
+	padding: 8px;
+	width: 224px;
+}
+h1 {
+	display: none;
+	font-size: 1em;
+}
+h2 {
+	font-size: 11px;
+	margin: 20px 0 5px;
+}
+h1 + section > h2 {
+	margin-top: 0;
+}
+p {
+	margin: 0;
+}
+
+
+
+/* ------------------------------------------------------------
+
+------------------------------------------------------------ */
+#replacement {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 0;
+}
+#replacement dt {
+	width: 52px;
+	margin-bottom: 2px;
+	font-size: 11px;
+}
+#replacement dd {
+	position: relative;
+	width: 172px;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 2px;
+}
+select#fontlist,
+select#weightlist {
+    -webkit-appearance: none;
+	width: 100%;
+	padding: 0.125em 22px 0.125em 0.5em;
+	border: 1px solid #b8b8b8;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-sizing: border-box;
+	font-size: 13px;
+	
+}
+.downarrow {
+	position: absolute;
+	top: 11px;
+	right: 8px;
+	fill: #999;
+}
+
+
+
+/* ------------------------------------------------------------
+
+------------------------------------------------------------ */
+.target-group__roman,
+.target-group__japanese {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 8px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+.target-group__roman > p,
+.target-group__japanese > p {
+	width: 50%;
+}
+.custom-string {
+	width: 100%;
+	height: 6em;
+	margin-top: 4px;
+	border: 1px solid #cfcfcf;
+	box-sizing: border-box;
+	font-size: 13px;
+}
+
+
+
+/* ------------------------------------------------------------
+
+------------------------------------------------------------ */
+.action-container {
+	margin-top: 1em;
+	text-align: center;
+}
+
+#mixing {
+	height: 30px;
+	padding: 0.125em 1em;
+	border: 1px solid #b8b8b8;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-sizing: border-box;
+	background-color: #FFF;
+}
+#mixing:active {
+	color: #fff;
+	background-color: #1E83F6;
 }

@@ -2,27 +2,29 @@ import BrowserWindow from 'sketch-module-web-view'
 const UI = require('sketch/ui')
 
 export default function(context) {
-	log('23: Start ------------------------------------------------');
+	log('27: Start ------------------------------------------------');
 
 	var lang = NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages").objectAtIndex(0);
 	if ( 'ja-JP' != lang ) {
 		lang = 'en';
 	}
 	var sel = context.selection;
-	// if (2 < sel.length) {
-	//	UI.message('Please select one or more and less than two text layers for the object.')
-	//	return false;
-	// } else if (1 > sel.length) {
-	//	UI.message('Please select one or more and less than two text layers for the object.')
-	//	return false;
-	// } else {
-	//	for (var i = sel.length - 1; i >= 0; i--) {
-	//		if ('MSTextLayer' != sel[i].class()) {
-	//			UI.message('Please select text layer(s).');
-	//			return false;
-	//		}
-	//	}
-	// }
+	var isTwoSelected = false;
+	if (2 < sel.length) {
+		UI.message('Please select one or more and less than two text layers for the object.')
+		return false;
+	} else if (1 > sel.length) {
+		UI.message('Please select one or more and less than two text layers for the object.')
+		return false;
+	} else {
+		for (var i = sel.length - 1; i >= 0; i--) {
+			if ('MSTextLayer' != sel[i].class()) {
+				UI.message('Please select text layer(s).');
+				return false;
+			}
+		}
+		if (2 == sel.length) isTwoSelected = true;
+	}
 
 	var doc = context.document;
 
@@ -36,19 +38,19 @@ export default function(context) {
 	}
 	var replacementFont = convertToJSON(repFont);
 
-	// var fontList = NSFontManager.sharedFontManager().availableFontFamilies().description();
+	var fontList = NSFontManager.sharedFontManager().availableFontFamilies();
 	// log(fontList.class());
-	var fontList = doc.documentData().fontList();
-	fontList.reloadFonts();
-	var fontlist_w_json = convertToJSON(fontList.allFonts());
-	// var fontlist_w_json = convertToJSON(fontList);
+	// var fontList = doc.documentData().fontList();
+	// fontList.reloadFonts();
+	// var fontlist_w_json = convertToJSON(fontList.allFonts());
+	var fontlist_w_json = convertToJSON(fontList);
 	// var fontlist_w_json = fontList;
 	
 
   const options = {
     identifier: 'unique.id',
     width: 240,
-    height: 400,
+    height: (isTwoSelected) ? 420 : 450,
     show: false
   }
 
@@ -58,7 +60,7 @@ export default function(context) {
   browserWindow.once('ready-to-show', () => {
     browserWindow.show();
     webContents.executeJavaScript(`appendOriginalFontName(${originalFont})`);
-    if (2 == sel.length) {
+    if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
 	    webContents.executeJavaScript(`createFontList(${fontlist_w_json})`);
@@ -79,22 +81,24 @@ export default function(context) {
     webContents.executeJavaScript(`setRandomNumber(${Math.random()})`)
   })
 	webContents.on('sendLog', (msg) => {
-		log('from WebView: ' + msg);
+		log('🌐 ' + msg);
 	})
 
   webContents.on('pushMixing', (selectFont, targetStrings, customString) => {
     // UI.message(selectFont);
-    log(selectFont);
-    log(targetStrings);
-    log(customString);
+    log('pushMixing ----------->');
+    log('selectFont: ' + selectFont);
+    log('targetStrings: ' + targetStrings);
+    log('customString: ' + customString);
 
     var matchPattern = integrateMatchPattern(targetStrings, customString);
-    // log('matchPattern:');
-    // log(matchPattern);
+    log('matchPattern:');
+    log(matchPattern);
     var replacementRanges = createReplacementRanges(sel[0].stringValue(), matchPattern);
     log(replacementRanges);
+    log('-----------> pushMixing ');
+    log("\r");
     applyReplacement(sel[0], repFont, replacementRanges);
-	// YuMin-Medium)
   })
 
   browserWindow.loadURL(require('../resources/plugin-ui.html'));
@@ -158,17 +162,12 @@ export default function(context) {
 }
 
 function applyReplacement (targetLayer, replacementFont, replacementRanges) {
-	log('applyReplacement ----------->')
-	// YuMin-Medium
+	log('applyReplacement ----------->');
 	var fontSize = targetLayer.fontSize();
-	var applyFont = NSFont.fontWithName_size_(replacementFont, fontSize);
+	var applyFont = NSFont.fontWithName_size_(replacementFont.toString(), fontSize);
 
 	targetLayer.setIsEditingText(true);
 	for (var i = 0; i < replacementRanges.length; i++) {
-		// var range = NSMakeRange(replacementRanges[i][0], replacementRanges[i][1]);
-		// log('Replacement: ' + i)
-		// log('Renge: ' + replacementRanges[i]);
-		// targetLayer.addAttribute_value_forRange_(NSFontAttributeName, applyFont, range);
 		targetLayer.addAttribute_value_forRange_(NSFontAttributeName, applyFont, replacementRanges[i]);
 	}
 	targetLayer.setIsEditingText(false);
