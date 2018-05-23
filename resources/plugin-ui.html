@@ -19,19 +19,19 @@
 			<h2>Original font:</h2>
 			<p id="orgFont"></p>
 		</section>
-		<section>
+		<section id="replacement-section">
 			<h2>Replace with:</h2>
 				<!-- <p id="repFont">
 				<select id="fontlist" name="fontList"></select>
 				<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow">
 			</p> -->
 			<dl id="replacement">
-				<dt>Typeface</dt>
+				<dt id="repFont__label">Typeface</dt>
 				<dd id="repFont">
 					<select id="fontlist" name="fontList"></select>
 					<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow"></use></svg>
 				</dd>
-				<dt>Weight</dt>
+				<dt id="weight__label">Weight</dt>
 				<dd id="weight">
 					<select id="weightlist" name="weightList"></select>
 					<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow"></use></svg>
@@ -43,11 +43,12 @@
 				<p><label><input type="checkbox" name="targetString" value="uppercase" checked>Uppercase</label></p>
 				<p><label><input type="checkbox" name="targetString" value="lowercase" checked>Lowercase</label></p>
 				<p><label><input type="checkbox" name="targetString" value="number" checked>Number</label></p>
-				<p><label><input type="checkbox" name="targetString" value="symbol" checked>Symbol</label></p>
+				<p><label><input type="checkbox" name="targetString" value="punctuationmark" checked>Punctuation mark</label></p>
 			</div>
 			<div class="target-group__japanese">
 				<p><label><input type="checkbox" name="targetString" value="hiragana">Hiragana</label></p>
 				<p><input type="checkbox" name="targetString" value="katakana" id="katakana"><label for="katakana">Katakana</label></p>
+				<p><input type="checkbox" name="targetString" value="katakana" id="katakana"><label for="yakumono">Yakumono</label></p>
 			</div>
 			<div class="target-group__custom">
 				<p>
