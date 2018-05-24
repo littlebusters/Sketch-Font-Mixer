@@ -128,7 +128,7 @@ document.getElementById('mixing').addEventListener('click', function () {
 		}
 	}
 
-	var customString = document.getElementById('customString').value;
+	var customString = escape(document.getElementById('customString').value)
   pluginCall('pushMixing', selectFont, targetStrings, customString);
 
   window.close();

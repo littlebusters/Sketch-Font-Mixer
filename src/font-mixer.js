@@ -30,11 +30,12 @@ export default function(context) {
 
 	// var orgFont = sel[0].fontPostscriptName();
 	var orgFont = Array(sel[0].fontPostscriptName());
-	log('orgFont: ' + orgFont);
+	log('🖌 orgFont: ' + orgFont);
 	var originalFont = convertToJSON(orgFont);
 	var repFont = Array();
 	if (2 == sel.length) {
 		repFont[0] = sel[1].fontPostscriptName();
+		log('🖌 repFont: ' + repFont);
 	}
 	var replacementFont = convertToJSON(repFont);
 
@@ -72,7 +73,7 @@ export default function(context) {
 
   // print a message when the page loads
   webContents.on('did-finish-load', () => {
-    UI.message('UI loaded!');
+    // UI.message('UI loaded!');
   })
 
 	webContents.on('sendLog', (msg) => {
@@ -105,7 +106,7 @@ export default function(context) {
 
     var replacementRanges = generateReplacementRanges(sel[0].stringValue(), matchPattern);
     log(replacementRanges);
-    log('-----------> pushMixing ');
+    log('-----------< pushMixing ');
     log("\r");
     applyReplacement(sel[0], selectFont, replacementRanges);
   })
@@ -119,17 +120,17 @@ export default function(context) {
 		if (targetStrings.lowercase) matchPattern += '\\u0061-\\u007A\\uFF41-\\uFF5A';
 		if (targetStrings.number) matchPattern += '\\u0030-\\u0039\\uFF10-\\uFF19';
 		if (targetStrings.punctuationmark) {
-			matchPattern+= '\\u0021-\\u002F\\u003A-\\u0040\\u005B-\\u0060\\u007B-\\u007E\\u00A1-\\u00A7\\u00AB\\u00B6\\u00BB\\u00BF';
-			matchPattern += '\\u2010\\u2013\\u2014\\u2018\\u2019\\u201C\\u201D\\u2020-\\u2022\\u2025\\u2026\\u2032\\u2033\\u203B-\\u203D\\u2042\\u2047-\\u2049\\u2051\\u25E6\\u2660-\\u266C';
-			matchPattern += '\\u3001-\\u3011\\u3014-\\u301F\\u3031\\u3032\\u3033\\u3034\\u3035\\u303B\\u303D\\u309D\\u309E\\u30A0\\u30FB-\\u30FE';
-			matchPattern += '\\uFF01-\\uFF0F\\uFF1A-\\uFF20\\uFF3B-\\uFF3F\\uFF5B-\\uFF65\\uFF70\\uFFE0-\\uFFE6'; 
+			matchPattern+= '\\u0020-\\u0023\\u0026-\\u002A\\u002C-\\u002F\\u003A-\\u003B\\u003F\\u0040\\u005B-\\u005D\\u005F\\u007B-\\u007E\\u00A0\\u00A1\\u00A6\\u00A7\\u00AB\\u00B6\\u00BB\\u00BF';
 		}
 		if (targetStrings.hiragana) matchPattern += '\\u3041-\\u3096';
 		if (targetStrings.katakana) matchPattern += '\\u30A1-\\u30FA';
-		if (targetStrings.yakumono) matchPattern += '\\u30A1-\\u30FA';
-		if (targetStrings.custom) matchPattern += encodeURI(customString);
+		if (targetStrings.yakumono) matchPattern += '\\u2010\\u2013\\u2014\\u2018\\u2019\\u201C\\u201D\\u2020-\\u2022\\u2025\\u2026\\u2032\\u2033\\u203B-\\u203D\\u2042\\u2047-\\u2049\\u2051\\u25E6\\u2660-\\u2667\\u2669-\\u266C\\u3000-\\u3003\\u3005\\u3008-\\u3011\\u3014-\\u3019\\u301C\\u301D\\u301F\\u3031-\\u3035\\u303B\\u303D\\u309D\\u309E\\u30A0\\u30FB\\u30FC-\\u30FE\\uFF01-\\uFF03\\uFF06-\\uFF0A\\uFF0C-\\uFF0F\\uFF1A\\uFF1B\\uFF1F\\uFF20\\uFF3B-\\uFF3D\\uFF3F\\uFF5B-\\uFF65\\uFF70';
+		if (targetStrings.custom) {
+			matchPattern += customString.replace('%', '\\');
+		}
 
 		matchPattern += ']';
+		log('----------< integrateMatchPattern');
 
 		return matchPattern;
   }
@@ -167,7 +168,7 @@ export default function(context) {
 			}
 		}
 		// log(replacementRanges);
-		log('----------> generateReplacementRanges');
+		log('----------< generateReplacementRanges');
 		return replacementRanges;
   }
 }
