@@ -32,7 +32,7 @@ export default function(context) {
 	var doc = context.document;
 
 	// Get font value
-	var orgFont = Array(sel[0].fontPostscriptName());
+	var orgFont  = Array(sel[0].fontPostscriptName());
 	var fontSize = sel[0].fontSize();
 	log('🖌 orgFont: ' + orgFont + ' / ' + fontSize);
 	var originalFont = convertToJSON(orgFont);
@@ -46,16 +46,14 @@ export default function(context) {
 
 	var fontList = NSFontManager.sharedFontManager().availableFontFamilies();
 	var fontlist_w_json = convertToJSON(fontList);
-	// var fontlist_w_json = fontList;
 	
-
+	// WebView options
   const options = {
     identifier: 'unique.id',
     width: 270,
-    height: (isTwoSelected) ? 420 : 450,
+    height: (isTwoSelected) ? 445 : 478,
     show: false
   }
-
   var browserWindow = new BrowserWindow(options)
 
   // only show the window when the page has loaded
@@ -97,6 +95,8 @@ export default function(context) {
     log(' selectFont: ' + fmSettings.selectFont);
     log(' fontSize: ' + fmSettings.fontSize);
     log(' targetStrings: ' + fmSettings.targetStrings);
+    log(' baseline: ' + fmSettings.baseline);
+    log(' force palt: ' + fmSettings.forcepalt);
 
     var matchPattern = integrateMatchPattern(fmSettings.targetStrings, fmSettings.customString);
     log(' matchPattern:');
@@ -110,13 +110,39 @@ export default function(context) {
 		log('applyReplacement ----------->');
 		var applyFont = NSFont.fontWithName_size_(fmSettings.selectFont.toString(), fmSettings.fontSize);
 
+		var forcePalt = ('palt' === fmSettings.forcepalt) ? true : false;
+		if (forcePalt) {
+			var features  = [{
+				'CTFeatureTypeIdentifier': 22,
+				'CTFeatureSelectorIdentifier': 5
+			}];
+			var fontDesc = applyFont.fontDescriptor();
+			var fontDescAttr = fontDesc.fontDescriptorByAddingAttributes({NSCTFontFeatureSettingsAttribute: features});
+			var palt = NSFont.fontWithDescriptor_size_(fontDescAttr, fmSettings.fontSize);
+		}
+
 		sel[0].setIsEditingText(true);
 		for (var i = 0; i < replacementRanges.length; i++) {
-			sel[0].addAttribute_value_forRange_(NSFontAttributeName, applyFont, replacementRanges[i]);
+			sel[0].addAttribute_value_forRange_(
+				NSFontAttributeName, 
+				applyFont, 
+				replacementRanges[i]);
+			sel[0].addAttribute_value_forRange_(
+				NSBaselineOffsetAttributeName, 
+				fmSettings.baseline - 0, 
+				replacementRanges[i]);
+			if (forcePalt) {
+				sel[0].addAttribute_value_forRange_(
+					NSFontAttributeName, 
+					palt, 
+					replacementRanges[i]);
+			}
 		}
 		sel[0].setIsEditingText(false);
+
 		log('------------------------------------------------ Finished');
   })
+
 
   browserWindow.loadURL(require('../resources/plugin-ui.html'));
 
@@ -186,4 +212,3 @@ function convertToJSON (string) {
 
 	return json;
 }
-

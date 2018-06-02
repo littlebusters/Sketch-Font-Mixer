@@ -11,19 +11,22 @@ function sendLog (msg) {
 window.appendOriginalFontName = function (fontName) {
 	pluginCall('sendLog', '🏃🏻‍♂️ appendOriginalFontName: ' + fontName);
 
-	document.getElementById('orgFont').innerHTML = fontName.toString().replace('-', ' ');
+	document.getElementById('orgFont').innerHTML = fontName.toString().replace(/-/g, ' ');
 }
 
 window.appendReplacementFontName = function (fontName) {
 	pluginCall('sendLog', '🏃🏻‍♂️ appendReplacementFontName: ' + fontName);
 	var sect = document.getElementById('replacement-section');
+	var base = document.getElementById('size-baseline');
 	var dl   = document.getElementById('replacement');
 	sect.removeChild(dl)
 
 	var pragraph = document.createElement('p');
-			pragraph.setAttribute('id', 'fontlist');
-			pragraph.innerHTML = fontName.toString().replace('-', ' ');
-	sect.appendChild(pragraph);
+			pragraph.setAttribute('id', 'weightlist');
+			pragraph.setAttribute('class', 'fixed');
+			pragraph.innerHTML = fontName.toString().replace(/-/g, ' ');
+	// sect.appendChild(pragraph);
+	sect.insertBefore(pragraph, base);
 }
 
 window.appendFontSize = function (fontSize) {
@@ -107,14 +110,26 @@ window.sendMixingSetting = function () {
 
 document.getElementById('mixing').addEventListener('click', function () {
 	var fmSettings = {}
+
 	var select = document.getElementById('weightlist');
 	if (select.hasAttribute('name')) {
 		fmSettings.selectFont = select.value;
 	} else {
-		fmSettings.selectFont = select.textContent;
+		fmSettings.selectFont = select.textContent.replace(/ /g, '-');;
 	}
 
 	fmSettings.fontSize = document.getElementById('repfont-size__value').value;
+	if (1 > fmSettings.fontSize) {
+		fmSettings.fontSize = 1;
+	}
+
+	fmSettings.baseline = document.getElementById('repfont-baseline__value').value;
+
+	if (true == document.getElementById('repfont-force-palt__value').checked) {
+		fmSettings.forcepalt = document.getElementById('repfont-force-palt__value').value;
+	} else {
+		fmSettings.forcepalt = false;
+	}
 
 	var targetStringState = document.getElementsByName('targetString');
 	fmSettings.targetStrings = {};
