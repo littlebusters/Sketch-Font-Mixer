@@ -1,5 +1,6 @@
 # build artifacts
 plugin.sketchplugin
+font-mixer.sketchplugin
 
 # npm
 node_modules

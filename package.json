@@ -7,7 +7,7 @@
   "skpm": {
     "name": "Sketch-font-mixer",
     "manifest": "src/manifest.json",
-    "main": "plugin.sketchplugin"
+    "main": "font-mixer.sketchplugin"
   },
   "scripts": {
     "build": "skpm-build",
