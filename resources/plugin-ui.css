@@ -28,24 +28,26 @@ h1 + section > h2 {
 p {
 	margin: 0;
 }
-
+input[type="checkbox"] {
+	margin-right: 0.5em;
+}
 
 
 /* ------------------------------------------------------------
    Replacement settings
 ------------------------------------------------------------ */
+.ui-label {
+	display: block;
+	width: 52px;
+	margin-bottom: 2px;
+	font-size: 11px;
+}
+
 #replacement {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	margin: 0;
-}
-#replacement dt,
-#repfont-size__label {
-	display: block;
-	width: 52px;
-	margin-bottom: 2px;
-	font-size: 11px;
 }
 #replacement dd {
 	position: relative;
@@ -54,6 +56,7 @@ p {
 	padding: 0;
 	margin-bottom: 2px;
 }
+
 select#fontlist,
 select#weightlist {
     -webkit-appearance: none;
@@ -72,13 +75,28 @@ select#weightlist {
 	right: 8px;
 	fill: #999;
 }
-#repfont-size {
+
+.flex {
+	display: flex;
+}
+
+#repfont-size,
+#repfont-baseline {
 	display: flex;
 	align-items: center;
 }
-#repfont-size__value {
+#repfont-baseline {
+	margin-left: 16px;
+}
+#repfont-size__value,
+#repfont-baseline__value {
 	width: 4em;
 	font-size: 13px;
+}
+
+#repfont-force-palt {
+	margin: 4px 0 2px 52px;
+	font-size: 11px;
 }
 
 
@@ -119,6 +137,7 @@ select#weightlist {
 }
 
 #mixing {
+	width: 100%;
 	height: 21px;
 	padding: 0.125em 1em;
 	border: 1px solid #b8b8b8;

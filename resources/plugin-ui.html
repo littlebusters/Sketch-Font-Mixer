@@ -22,20 +22,30 @@
 		<section id="replacement-section">
 			<h2>Replace with:</h2>
 			<dl id="replacement">
-				<dt id="repFont__label">Typeface</dt>
+				<dt id="repFont__label" class="ui-label">Typeface</dt>
 				<dd id="repFont">
 					<select id="fontlist" name="fontList"></select>
 					<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow"></use></svg>
 				</dd>
-				<dt id="weight__label">Weight</dt>
+				<dt id="weight__label" class="ui-label">Weight</dt>
 				<dd id="weight">
 					<select id="weightlist" name="weightList"></select>
 					<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow"></use></svg>
 				</dd>
+			</dl>
+			<div class="flex">
 				<p id="repfont-size">
 					<span id="repfont-size__label" class="ui-label">Size</span>
 					<input id="repfont-size__value" name="fontSize" type="number">
 				</p>
+				<p id="repfont-baseline">
+					<span id="repfont-beseline" class="ui-label">Baseline</span>
+					<input id="repfont-baseline__value" name="baseline" type="number" value="0">
+				</p>
+			</div>
+			<p id="repfont-force-palt">
+				<label><input type="checkbox" name="forcepalt" value="palt">Force "palt"</label>
+			</p>
 		</section>
 		<section>
 			<h2>Replacement target:</h2>
