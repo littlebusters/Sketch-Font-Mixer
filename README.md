@@ -1,93 +1,81 @@
-# Sketch-font-mixer
+# Font Mixer - Sketch Plugin
 
-_This plugin was created using `skpm`. For a detailed explanation on how things work, checkout the [skpm Readme](https://github.com/skpm/skpm/blob/master/README.md)._
+This plugin can apply other fonts for each character type of Text Layer. ([README in :jp:](#font-mixer---sketch-plugin-ja))
 
 ## Usage
 
-Install the dependencies
+### Font select mode
 
-```bash
-npm install
-```
+1. Select a one text layer.
+1. Choose Plugins › Font Mixer.
+1. Setting typeface, weight and font size.
+1. Continue setting replacement character type.
+1. Click Mixing! button.
 
-Once the installation is done, you can run some commands inside the project folder:
+### layer property mode
 
-```bash
-npm run build
-```
+1. Duplicate the original text layer and change to typeface and weight you want to use.
+1. Select original text layer and duplicated text layer.
+1. Choose Plugins › Font Mixer.
+1. Setting font size and setting replacement character type.
+1. Click Mixing! button.
 
-To watch for changes:
+## Installation
 
-```bash
-npm run watch
-```
+### with Sketch Runner
 
-Additionally, if you wish to run the plugin every time it is built:
+With Sketch Runner, just go to the `install` command and search for `font mixer`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch. [Download Runner here](http://www.sketchrunner.com).
 
-```bash
-npm run start
-```
+### with Sketchpacks
 
-## Custom Configuration
+You can find this plugin in "[Sketchpacks](https://sketchpacks.com/)". Type `font mixer` on the search box, then you click "INSTALL" button.
 
-### Babel
+### with Manualy
 
-To customize Babel, you have two options:
+Or, [Download the plugin zip](https://github.com/littlebusters/Sketch-Font-Mixer/archive/master.zip) and unzip. Double-click the `Font Mixer.sketchplugin` in the folder to install it.
 
-* You may create a [`.babelrc`](https://babeljs.io/docs/usage/babelrc) file in your project's root directory. Any settings you define here will overwrite matching config-keys within skpm preset. For example, if you pass a "presets" object, it will replace & reset all Babel presets that skpm defaults to.
+## License
 
-* If you'd like to modify or add to the existing Babel config, you must use a `webpack.skpm.config.js` file. Visit the [Webpack](#webpack) section for more info.
+The MIT License (MIT). See License.
 
-### Webpack
+-----
 
-To customize webpack create `webpack.skpm.config.js` file which exports function that will change webpack's config.
+# Font Mixer - Sketch Plugin (ja)
 
-```js
-/**
- * Function that mutates original webpack config.
- * Supports asynchronous changes when promise is returned.
- *
- * @param {object} config - original webpack config.
- * @param {boolean} isPluginCommand - whether the config is for a plugin command or a resource
- **/
-module.exports = function(config, isPluginCommand) {
-  /** you can change config here **/
-}
-```
+テキストレイヤーの文字タイプごとに異なるフォントを適用することができるプラグインです。
 
-## Debugging
+## 使い方
 
-To view the output of your `console.log`, you have a few different options:
+### フォント選択モード
 
-* Use the [`sketch-dev-tools`](https://github.com/skpm/sketch-dev-tools)
-* Open `Console.app` and look for the sketch logs
-* Look at the `~/Library/Logs/com.bohemiancoding.sketch3/Plugin Output.log` file
+1. テキストレイヤーを1つ選択します。
+1. Plugins › Font Mixerで、プラグインを実行します。
+1. typefaceやweight・フォントサイズを設定します。
+1. 続けて、置換したい文字タイプを選択します。
+1. Mixign! ボタンをクリックしてください。
 
-Skpm provides a convenient way to do the latter:
+### レイヤープロパティーモード
 
-```bash
-skpm log
-```
+1. 元となるテキストレイヤーを複製し、使いたいtypefaceとweightに設定します。
+1. Plugins › Font Mixerで、プラグインを実行します。
+1. 置換したい文字タイプを選択します。
+1. Mixign! ボタンをクリックしてください。
 
-The `-f` option causes `skpm log` to not stop when the end of logs is reached, but rather to wait for additional data to be appended to the input
+## インストール
 
-## Publishing your plugin
+### Sketch Runnerで
 
-```bash
-skpm publish <bump>
-```
+Sketch Runnerから`install`コマンドを実行し、`font mixer`で検索してインストールしてください。[Sketch Runnerのダウンロードこちら](http://www.sketchrunner.com)。
 
-(where `bump` can be `patch`, `minor` or `major`)
+### Sketchpacksで
 
-`skpm publish` will create a new release on your GitHub repository and create an appcast file in order for Sketch users to be notified of the update.
+[Sketchpacks](https://sketchpacks.com/)の検索ボックスで、`font mixer`と検索してインストールしてください。
 
-You will need to specify a `repository` in the `package.json`:
+### 手動で
 
-```diff
-...
-+ "repository" : {
-+   "type": "git",
-+   "url": "git+https://github.com/ORG/NAME.git"
-+  }
-...
-```
+または、[ZIPファイルをダウンロード](https://github.com/littlebusters/skecth-font-mixer/archive/master.zip)・伸張し、「Switch Text Spacing.sketchplugin」をダブルクリックしてインストールできます。
+
+
+## ライセンス
+
+MITライセンスです。詳しくは、LICENSEをご確認ください。
