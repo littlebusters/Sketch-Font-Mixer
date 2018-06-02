@@ -1,4 +1,5 @@
 import BrowserWindow from 'sketch-module-web-view'
+import ud from './modules/user-defaults'
 const UI = require('sketch/ui')
 
 export default function(context) {
@@ -64,7 +65,8 @@ export default function(context) {
     if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
-	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json})`);
+			var udRepFont = ud.getDefaults('repFont');
+	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udRepFont})`);
 	  }
   })
 
