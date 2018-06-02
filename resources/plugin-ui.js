@@ -106,25 +106,27 @@ window.sendMixingSetting = function () {
 }
 
 document.getElementById('mixing').addEventListener('click', function () {
+	var fmSettings = {}
 	var select = document.getElementById('weightlist');
 	if (select.hasAttribute('name')) {
-		var selectFont = select.value;
+		fmSettings.selectFont = select.value;
 	} else {
-		var selectFont = select.textContent;
+		fmSettings.selectFont = select.textContent;
 	}
 
-	var fontSize = document.getElementById('repfont-size__value').value;
+	fmSettings.fontSize = document.getElementById('repfont-size__value').value;
 
 	var targetStringState = document.getElementsByName('targetString');
-	var targetStrings = {};
+	fmSettings.targetStrings = {};
 	for (var i = targetStringState.length - 1; i >= 0; i--) {
 		if (true == targetStringState[i].checked) {
-			targetStrings[targetStringState[i].value] = true;
+			fmSettings.targetStrings[targetStringState[i].value] = true;
 		}
 	}
 
-	var customString = escape(document.getElementById('customString').value)
-  pluginCall('pushMixing', selectFont, fontSize, targetStrings, customString);
+	fmSettings.customString = escape(document.getElementById('customString').value);
+
+  pluginCall('pushMixing', fmSettings);
 
   window.close();
 });

@@ -92,21 +92,30 @@ export default function(context) {
 	})
 
 	// Exec font mix
-  webContents.on('pushMixing', (selectFont, fontSize, targetStrings, customString) => {
+  webContents.on('pushMixing', (fmSettings) => {
     log('pushMixing ----------->');
-    log(' selectFont: ' + selectFont);
-    log(' fontSize: ' + fontSize);
-    log(' targetStrings: ' + targetStrings);
+    log(' selectFont: ' + fmSettings.selectFont);
+    log(' fontSize: ' + fmSettings.fontSize);
+    log(' targetStrings: ' + fmSettings.targetStrings);
 
-    var matchPattern = integrateMatchPattern(targetStrings, customString);
+    var matchPattern = integrateMatchPattern(fmSettings.targetStrings, fmSettings.customString);
     log(' matchPattern:');
     log(matchPattern);
 
     var replacementRanges = generateReplacementRanges(sel[0].stringValue(), matchPattern);
     log(replacementRanges);
-    log('-----------< pushMixing ');
-    log("\r");
-    applyReplacement(sel[0], selectFont, fontSize, replacementRanges);
+    log('-----------< pushMixing ' + "\r");
+
+
+		log('applyReplacement ----------->');
+		var applyFont = NSFont.fontWithName_size_(fmSettings.selectFont.toString(), fmSettings.fontSize);
+
+		sel[0].setIsEditingText(true);
+		for (var i = 0; i < replacementRanges.length; i++) {
+			sel[0].addAttribute_value_forRange_(NSFontAttributeName, applyFont, replacementRanges[i]);
+		}
+		sel[0].setIsEditingText(false);
+		log('------------------------------------------------ Finished');
   })
 
   browserWindow.loadURL(require('../resources/plugin-ui.html'));
@@ -169,18 +178,6 @@ export default function(context) {
 		log('----------< generateReplacementRanges');
 		return replacementRanges;
   }
-}
-
-function applyReplacement (targetLayer, replacementFont, fontSize, replacementRanges) {
-	log('applyReplacement ----------->');
-	var applyFont = NSFont.fontWithName_size_(replacementFont.toString(), fontSize);
-
-	targetLayer.setIsEditingText(true);
-	for (var i = 0; i < replacementRanges.length; i++) {
-		targetLayer.addAttribute_value_forRange_(NSFontAttributeName, applyFont, replacementRanges[i]);
-	}
-	targetLayer.setIsEditingText(false);
-	log('------------------------------------------------ Finished');
 }
 
 function convertToJSON (string) {
