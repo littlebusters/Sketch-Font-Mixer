@@ -1,4 +1,9 @@
 {
+	"name": "Font Mixer",
+  "version": "0.4.1",
+  "description" : "This plugin can apply other fonts for each character type of Text Layer.",
+	"author": "littlebusters",
+  "identifier": "net.creative-tweet.font-mixer",
   "compatibleVersion": 3,
   "bundleVersion": 1,
   "icon": "icon.png",
@@ -12,8 +17,10 @@
   ],
   "menu": {
     "title": "Font Mixer",
+    "isRoot": true,
     "items": [
       "font-mixer-id"
     ]
-  }
+  },
+	"appcast": "https://gist.githubusercontent.com/littlebusters/9b1ab3082e2a1674f9892b2cd2e6947b/raw/68a750068454e9b6f3382bfec7b1f89be30f78b3/update.xml"
 }

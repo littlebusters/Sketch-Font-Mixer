@@ -1,6 +1,6 @@
 {
   "name": "sketch-font-mixer",
-  "version": "0.1.0",
+  "version": "0.4.1",
   "engines": {
     "sketch": ">=3.0"
   },
@@ -24,6 +24,9 @@
   "resources": [
     "resources/**/*.js"
   ],
+  "assets": [
+		"assets/**/*.xml"
+	],
   "author": "littlebusters <little.busters.reply@gmail.com>",
   "dependencies": {
     "sketch-module-web-view": "^1.1.5"
