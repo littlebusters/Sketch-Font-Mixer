@@ -16,19 +16,6 @@ window.appendOriginalFontName = function (fontName) {
 
 window.appendReplacementFontName = function (fontName) {
 	pluginCall('sendLog', '🏃🏻‍♂️ appendReplacementFontName: ' + fontName);
-
-	// var repFont = document.getElementById('repFont');
-	// for (var i = repFont.children.length - 1; i >= 0; i--) {
-	//	repFont.removeChild(repFont.children[i]);
-	// }
-	// var repCb = document.getElementById('replacement');
-	// repCb.removeChild(document.getElementById('weight__label'));
-	// repCb.removeChild(document.getElementById('weight'));
-
-	// var span = document.createElement('span');
-	//		span.setAttribute('id', 'fontlist');
-	//		span.innerHTML = fontName.toString().replace('-', ' ');
-	// repFont.appendChild(span);
 	var sect = document.getElementById('replacement-section');
 	var dl   = document.getElementById('replacement');
 	sect.removeChild(dl)
@@ -37,6 +24,12 @@ window.appendReplacementFontName = function (fontName) {
 			pragraph.setAttribute('id', 'fontlist');
 			pragraph.innerHTML = fontName.toString().replace('-', ' ');
 	sect.appendChild(pragraph);
+}
+
+window.appendFontSize = function (fontSize) {
+	pluginCall('sendLog', '🏃🏻‍♂️ appendFontSize: ' + fontSize);
+	var fsInput = document.getElementById('repfont-size__value');
+	fsInput.value = fontSize;
 }
 
 window.generateFontList = function (rawFonts) {
@@ -120,6 +113,8 @@ document.getElementById('mixing').addEventListener('click', function () {
 		var selectFont = select.textContent;
 	}
 
+	var fontSize = document.getElementById('repfont-size__value').value;
+
 	var targetStringState = document.getElementsByName('targetString');
 	var targetStrings = {};
 	for (var i = targetStringState.length - 1; i >= 0; i--) {
@@ -129,7 +124,7 @@ document.getElementById('mixing').addEventListener('click', function () {
 	}
 
 	var customString = escape(document.getElementById('customString').value)
-  pluginCall('pushMixing', selectFont, targetStrings, customString);
+  pluginCall('pushMixing', selectFont, fontSize, targetStrings, customString);
 
   window.close();
 });

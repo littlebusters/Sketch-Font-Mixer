@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Font mixer</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./plugin-ui.css">
 </head>
 <body>
 <svg style="display: none;">
@@ -21,10 +21,6 @@
 		</section>
 		<section id="replacement-section">
 			<h2>Replace with:</h2>
-				<!-- <p id="repFont">
-				<select id="fontlist" name="fontList"></select>
-				<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow">
-			</p> -->
 			<dl id="replacement">
 				<dt id="repFont__label">Typeface</dt>
 				<dd id="repFont">
@@ -36,6 +32,10 @@
 					<select id="weightlist" name="weightList"></select>
 					<svg width="8" height="6" class="downarrow"><use href="#icon-downarrow" xlink:href="#icon-downarrow"></use></svg>
 				</dd>
+				<p id="repfont-size">
+					<span id="repfont-size__label" class="ui-label">Size</span>
+					<input id="repfont-size__value" name="fontSize" type="number">
+				</p>
 		</section>
 		<section>
 			<h2>Replacement target:</h2>
@@ -53,7 +53,7 @@
 			<div class="target-group__custom">
 				<p>
 					<label><input type="checkbox" name="targetString" value="custom">Custom</label>
-					<textarea name="customString" id="customString" class="custom-string" placeholder="Custom String..."></textarea>
+					<textarea name="customString" id="customString" class="custom-string" placeholder="Custom Strings..."></textarea>
 				</p>
 			</div>
 		</section>
@@ -63,14 +63,6 @@
 	<button id="mixing">Mixing!</button>
 </footer>
 
-<!-- <div>
-  <button id="button">Get a random number</button>
-</div>
-
-<div id="answer"></div>
-<div id="logs"></div> -->
-
-<!-- notice the "../" here. It's because webview.js will be compiled in a different folder -->
 <script src="../plugin-ui.js"></script>
 </body>
 </html>

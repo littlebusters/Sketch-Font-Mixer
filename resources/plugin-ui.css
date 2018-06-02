@@ -32,7 +32,7 @@ p {
 
 
 /* ------------------------------------------------------------
-
+   Replacement settings
 ------------------------------------------------------------ */
 #replacement {
 	display: flex;
@@ -40,7 +40,9 @@ p {
 	align-items: center;
 	margin: 0;
 }
-#replacement dt {
+#replacement dt,
+#repfont-size__label {
+	display: block;
 	width: 52px;
 	margin-bottom: 2px;
 	font-size: 11px;
@@ -70,6 +72,15 @@ select#weightlist {
 	right: 8px;
 	fill: #999;
 }
+#repfont-size {
+	display: flex;
+	align-items: center;
+}
+#repfont-size__value {
+	width: 4em;
+	font-size: 13px;
+}
+
 
 
 
@@ -103,12 +114,12 @@ select#weightlist {
 
 ------------------------------------------------------------ */
 .action-container {
-	margin-top: 1em;
-	text-align: center;
+	margin-top: 8px;
+	text-align: right;
 }
 
 #mixing {
-	height: 30px;
+	height: 21px;
 	padding: 0.125em 1em;
 	border: 1px solid #b8b8b8;
 	border-radius: 4px;
