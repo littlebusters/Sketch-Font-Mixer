@@ -4,10 +4,13 @@ const UI = require('sketch/ui')
 export default function(context) {
 	log('Font Mixer Start ------------------------------------------------');
 
+	// Language setting
 	var lang = NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages").objectAtIndex(0);
 	if ( 'ja-JP' != lang ) {
 		lang = 'en';
 	}
+
+	// Check selection
 	var sel = context.selection;
 	var isTwoSelected = false;
 	if (2 < sel.length) {
@@ -28,10 +31,12 @@ export default function(context) {
 
 	var doc = context.document;
 
-	// var orgFont = sel[0].fontPostscriptName();
+	// Get font value
 	var orgFont = Array(sel[0].fontPostscriptName());
-	log('🖌 orgFont: ' + orgFont);
+	var fontSize = sel[0].fontSize();
+	log('🖌 orgFont: ' + orgFont + ' / ' + fontSize);
 	var originalFont = convertToJSON(orgFont);
+
 	var repFont = Array();
 	if (2 == sel.length) {
 		repFont[0] = sel[1].fontPostscriptName();
@@ -40,10 +45,6 @@ export default function(context) {
 	var replacementFont = convertToJSON(repFont);
 
 	var fontList = NSFontManager.sharedFontManager().availableFontFamilies();
-	// log(fontList.class());
-	// var fontList = doc.documentData().fontList();
-	// fontList.reloadFonts();
-	// var fontlist_w_json = convertToJSON(fontList.allFonts());
 	var fontlist_w_json = convertToJSON(fontList);
 	// var fontlist_w_json = fontList;
 	
@@ -61,24 +62,22 @@ export default function(context) {
   browserWindow.once('ready-to-show', () => {
     browserWindow.show();
     webContents.executeJavaScript(`appendOriginalFontName(${originalFont})`);
+    webContents.executeJavaScript(`appendFontSize(${fontSize})`);
     if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
 	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json})`);
 	  }
-    // webContents.executeJavaScript(`generatePluginUI(${orgFont})`);
   })
 
   const webContents = browserWindow.webContents
 
-  // print a message when the page loads
-  webContents.on('did-finish-load', () => {
-    // UI.message('UI loaded!');
-  })
-
+  // print a message when send value from WebView
 	webContents.on('sendLog', (msg) => {
 		log('🌐 ' + msg);
 	})
+
+	// Get font weight value and send value for WebView
 	webContents.on('changedFont', (fontFamily) => {
 		log('👉🏻 ' + fontFamily);
 		var fontFamilies = NSFontManager.sharedFontManager().availableMembersOfFontFamily(fontFamily);
@@ -89,15 +88,14 @@ export default function(context) {
 			fontWeight[i][0] = fontFamilies[i][0];
 			fontWeight[i][1] = fontFamilies[i][1];
 		}
-		// log(fontWeight);
-		// webContents.executeJavaScript(`setFontWeight(${convertToJSON(fontFamilies)})`);
 		webContents.executeJavaScript(`setFontWeight(${convertToJSON(fontWeight)})`);
 	})
 
-  webContents.on('pushMixing', (selectFont, targetStrings, customString) => {
-    // UI.message(selectFont);
+	// Exec font mix
+  webContents.on('pushMixing', (selectFont, fontSize, targetStrings, customString) => {
     log('pushMixing ----------->');
     log(' selectFont: ' + selectFont);
+    log(' fontSize: ' + fontSize);
     log(' targetStrings: ' + targetStrings);
 
     var matchPattern = integrateMatchPattern(targetStrings, customString);
@@ -108,11 +106,12 @@ export default function(context) {
     log(replacementRanges);
     log('-----------< pushMixing ');
     log("\r");
-    applyReplacement(sel[0], selectFont, replacementRanges);
+    applyReplacement(sel[0], selectFont, fontSize, replacementRanges);
   })
 
   browserWindow.loadURL(require('../resources/plugin-ui.html'));
 
+  // Generate match pattern for regexp
   function integrateMatchPattern (targetStrings, customString) {
 		log('integrateMatchPattern ---------->');
 		var matchPattern = '[';
@@ -126,9 +125,8 @@ export default function(context) {
 		if (targetStrings.katakana) matchPattern += '\\u30A1-\\u30FA';
 		if (targetStrings.yakumono) matchPattern += '\\u2010\\u2013\\u2014\\u2018\\u2019\\u201C\\u201D\\u2020-\\u2022\\u2025\\u2026\\u2032\\u2033\\u203B-\\u203D\\u2042\\u2047-\\u2049\\u2051\\u25E6\\u2660-\\u2667\\u2669-\\u266C\\u3000-\\u3003\\u3005\\u3008-\\u3011\\u3014-\\u3019\\u301C\\u301D\\u301F\\u3031-\\u3035\\u303B\\u303D\\u309D\\u309E\\u30A0\\u30FB\\u30FC-\\u30FE\\uFF01-\\uFF03\\uFF06-\\uFF0A\\uFF0C-\\uFF0F\\uFF1A\\uFF1B\\uFF1F\\uFF20\\uFF3B-\\uFF3D\\uFF3F\\uFF5B-\\uFF65\\uFF70';
 		if (targetStrings.custom) {
-			matchPattern += customString.replace('%', '\\');
+			matchPattern += customString.replace(/%/g, '\\');
 		}
-
 		matchPattern += ']';
 		log('----------< integrateMatchPattern');
 
@@ -173,9 +171,8 @@ export default function(context) {
   }
 }
 
-function applyReplacement (targetLayer, replacementFont, replacementRanges) {
+function applyReplacement (targetLayer, replacementFont, fontSize, replacementRanges) {
 	log('applyReplacement ----------->');
-	var fontSize = targetLayer.fontSize();
 	var applyFont = NSFont.fontWithName_size_(replacementFont.toString(), fontSize);
 
 	targetLayer.setIsEditingText(true);
@@ -192,6 +189,4 @@ function convertToJSON (string) {
 
 	return json;
 }
-// Type something
 
-//
