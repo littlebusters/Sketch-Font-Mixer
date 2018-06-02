@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Font Mixer beta</title>
+    <link>https://creative-tweet.net/downloads/fm/update.xml</link>
+    <description>Font Mixer beta</description>
+    <language>en</language>
+      <item>
+        <title>Version 0.4.1</title>
+        <description>
+          <![CDATA[
+            <ul>
+              <li>Supports Sketch Runnner</li>
+            </ul>
+          ]]>
+        </description>
+        <pubDate>Tue, 13 Jun 2017 23:31:00 +0900</pubDate>
+        <enclosure url="https://creative-tweet.net/downloads/fm/font-mixer.sketchplugin.zip" sparkle:version="0.4.1" length="57972" type="application/octet-stream" />
+      </item>
+  </channel>
+</rss>
