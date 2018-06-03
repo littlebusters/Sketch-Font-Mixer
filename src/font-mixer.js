@@ -1,10 +1,11 @@
+log('sFont Mixer Start ------------------------------------------------');
+
 import BrowserWindow from 'sketch-module-web-view'
-import ud from './modules/user-defaults'
+import * as ud from './modules/user-defaults'
 const UI = require('sketch/ui')
+// const pluginIdentifier = "net.creative-tweet.font-mixer"
 
 export default function(context) {
-	log('Font Mixer Start ------------------------------------------------');
-
 	// Language setting
 	var lang = NSUserDefaults.standardUserDefaults().objectForKey("AppleLanguages").objectAtIndex(0);
 	if ( 'ja-JP' != lang ) {
@@ -65,8 +66,15 @@ export default function(context) {
     if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
-			var udRepFont = ud.getDefaults('repFont');
-	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udRepFont})`);
+			let temp = Array();
+			log(' generateFontList');
+			temp[0] = ud.getDefaults('disFont');
+			temp[1] = ud.getDefaults('repFont');
+			var udFonts = convertToJSON(temp)
+			log(udFonts)
+	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udDisFont.toString()}, ${udRepFont.toString()})`);
+	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udFonts})`);
+	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, 'sss', 'ssss')`);
 	  }
   })
 
@@ -141,6 +149,11 @@ export default function(context) {
 			}
 		}
 		sel[0].setIsEditingText(false);
+
+		if (!isTwoSelected) {
+			ud.setDefaults('disFont', fmSettings.displayFontName);
+			ud.setDefaults('repFont', fmSettings.selectFont);
+		}
 
 		log('------------------------------------------------ Finished');
   })

@@ -35,8 +35,9 @@ window.appendFontSize = function (fontSize) {
 	fsInput.value = fontSize;
 }
 
-window.generateFontList = function (rawFonts) {
+window.generateFontList = function (rawFonts, udFonts) {
 	pluginCall('sendLog', '🏃🏻‍♂️ generateFontList');
+	pluginCall('sendLog', udFonts);
 	var typefaceSelector = document.getElementById('fontlist');
 
 	// Remove used font
@@ -53,6 +54,9 @@ window.generateFontList = function (rawFonts) {
 	for (var i = 0; i < fontList.length; i++) {
 		var option = document.createElement('option')
 				option.setAttribute('value', fontList[i]);
+		if (udFonts[0] === fontList[i]) {
+			option.setAttribute('selected', 'selected');
+		}
 		var label = document.createTextNode(fontList[i]);
 		option.appendChild(label);
 		typefaceSelector.appendChild(option);
@@ -61,7 +65,7 @@ window.generateFontList = function (rawFonts) {
 	// Generate initial weight list
 	pluginCall('changedFont', typefaceSelector.value);
 	var defaultWeightSelector = document.getElementById('weightlist');
-	generateWeightList(defaultWeightSelector, window.fontWeightList);
+	generateWeightList(defaultWeightSelector, window.fontWeightList, udFonts[1]);
 
 	// Add event 'onChange'
 	typefaceSelector.onchange = changeTypeface;
@@ -82,11 +86,15 @@ window.generateFontList = function (rawFonts) {
 	}
 }
 
-window.generateWeightList = function (ws, wl) {
+window.generateWeightList = function (ws, wl, ud) {
+	if(!ud) ud = false;
 	for (var i = 0; i < wl.length; i++) {
 		var option = document.createElement('option');
-		var label = document.createTextNode(wl[i][1]);
 			option.setAttribute('value', wl[i][0]);
+		if (ud === wl[i][0]) {
+			option.setAttribute('selected', 'selected');
+		}
+		var label = document.createTextNode(wl[i][1]);
 			option.appendChild(label);
 		ws.appendChild(option);
 	}
@@ -114,6 +122,8 @@ document.getElementById('mixing').addEventListener('click', function () {
 	var select = document.getElementById('weightlist');
 	if (select.hasAttribute('name')) {
 		fmSettings.selectFont = select.value;
+		var displayFontName = document.getElementById('fontlist');
+		fmSettings.displayFontName = displayFontName.value;
 	} else {
 		fmSettings.selectFont = select.textContent.replace(/ /g, '-');;
 	}
