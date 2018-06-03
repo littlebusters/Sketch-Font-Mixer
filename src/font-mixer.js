@@ -1,4 +1,4 @@
-log('sFont Mixer Start ------------------------------------------------');
+log('Font Mixer Start ------------------------------------------------');
 
 import BrowserWindow from 'sketch-module-web-view'
 import * as ud from './modules/user-defaults'
@@ -63,6 +63,12 @@ export default function(context) {
     browserWindow.show();
     webContents.executeJavaScript(`appendOriginalFontName(${originalFont})`);
     webContents.executeJavaScript(`appendFontSize(${fontSize})`);
+
+    var nsForcePalt = Array();
+    nsForcePalt[0] = (null === ud.getDefaults('forcepalt')) ? false : ud.getDefaults('forcepalt');
+    var udForcePalt = convertToJSON(nsForcePalt);
+    log(udForcePalt);
+    webContents.executeJavaScript(`setDefaultForcePalt(${udForcePalt})`);
 
     var nsTargetStrings = Object();
 				nsTargetStrings['uppercase'] = (null === ud.getDefaults('uppercase')) ? true : ud.getDefaults('uppercase');
@@ -168,6 +174,8 @@ export default function(context) {
 			ud.setDefaults('disFont', fmSettings.displayFontName);
 			ud.setDefaults('repFont', fmSettings.selectFont);
 		}
+		log(' forcePalt: ' + forcePalt);
+		ud.setDefaults('forcepalt', forcePalt);
 		for (var target in fmSettings.targetStrings) {
 			log(fmSettings.targetStrings[target]);
 			if('custom' != fmSettings.targetStrings[target]) {

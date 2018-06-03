@@ -116,6 +116,13 @@ window.sendMixingSetting = function () {
 	}
 }
 
+window.setDefaultForcePalt = function(fp) {
+	pluginCall('sendLog', ' setDefaultForcePalt : ' + fp[0]);
+	if (true === fp[0]) {
+		document.getElementById('repfont-force-palt__value').setAttribute('checked', 'checked');
+	}
+}
+
 window.setDefaultTargets = function (ts) {
 	var targetStringState = document.getElementsByName('targetString');
 	for (var i = targetStringState.length - 1; i >= 0; i--) {
