@@ -63,14 +63,27 @@ export default function(context) {
     browserWindow.show();
     webContents.executeJavaScript(`appendOriginalFontName(${originalFont})`);
     webContents.executeJavaScript(`appendFontSize(${fontSize})`);
+
+    var nsTargetStrings = Object();
+				nsTargetStrings['uppercase'] = (null === ud.getDefaults('uppercase')) ? true : ud.getDefaults('uppercase');
+				nsTargetStrings['lowercase'] = (null === ud.getDefaults('lowercase')) ? true : ud.getDefaults('lowercase');
+				nsTargetStrings['number'] = (null === ud.getDefaults('number')) ? true : ud.getDefaults('number');
+				nsTargetStrings['punctuationmark'] = (null === ud.getDefaults('punctuationmark')) ? true : ud.getDefaults('punctuationmark');
+				nsTargetStrings['hiragana'] = ud.getDefaults('hiragana');
+				nsTargetStrings['katakana'] = ud.getDefaults('katakana');
+				nsTargetStrings['yakumono'] = ud.getDefaults('yakumono');
+		var udTargetStrings = convertToJSON(nsTargetStrings);
+		log(udTargetStrings);
+		webContents.executeJavaScript(`setDefaultTargets(${udTargetStrings})`)
+
     if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
-			let temp = Array();
+			let nsFonts = Array();
 			log(' generateFontList');
-			temp[0] = ud.getDefaults('disFont');
-			temp[1] = ud.getDefaults('repFont');
-			var udFonts = convertToJSON(temp)
+			nsFonts[0] = ud.getDefaults('disFont');
+			nsFonts[1] = ud.getDefaults('repFont');
+			var udFonts = convertToJSON(nsFonts)
 			log(udFonts)
 	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udDisFont.toString()}, ${udRepFont.toString()})`);
 	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udFonts})`);
@@ -150,9 +163,17 @@ export default function(context) {
 		}
 		sel[0].setIsEditingText(false);
 
+		// Set userDefaults
 		if (!isTwoSelected) {
 			ud.setDefaults('disFont', fmSettings.displayFontName);
 			ud.setDefaults('repFont', fmSettings.selectFont);
+		}
+		for (var target in fmSettings.targetStrings) {
+			log(fmSettings.targetStrings[target]);
+			if('custom' != fmSettings.targetStrings[target]) {
+				log(target);
+				ud.setDefaults(target, fmSettings.targetStrings[target]);
+			}
 		}
 
 		log('------------------------------------------------ Finished');

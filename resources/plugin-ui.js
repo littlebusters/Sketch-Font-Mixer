@@ -106,13 +106,22 @@ window.setFontWeight = function (fontweight) {
 	pluginCall('sendLog', ' before: ' + fontweight);
 	window.fontWeightList = fontweight;
 	pluginCall('sendLog', ' after : ' + fontWeightList);
-	pluginCall('sendLog', ' ' + fontWeightList.length);
+	pluginCall('sendLog', ' fontWeightList.length: ' + fontWeightList.length);
 }
 
 window.sendMixingSetting = function () {
 	var targetStrings = document.targetString;
 	for (var i = targetStrings.length - 1; i >= 0; i--) {
 		targetStrings[i];
+	}
+}
+
+window.setDefaultTargets = function (ts) {
+	var targetStringState = document.getElementsByName('targetString');
+	for (var i = targetStringState.length - 1; i >= 0; i--) {
+		if (true === ts[targetStringState[i].value]) {
+			targetStringState[i].setAttribute('checked', 'checked');
+		}
 	}
 }
 
@@ -146,6 +155,8 @@ document.getElementById('mixing').addEventListener('click', function () {
 	for (var i = targetStringState.length - 1; i >= 0; i--) {
 		if (true == targetStringState[i].checked) {
 			fmSettings.targetStrings[targetStringState[i].value] = true;
+		} else {
+			fmSettings.targetStrings[targetStringState[i].value] = false;
 		}
 	}
 
