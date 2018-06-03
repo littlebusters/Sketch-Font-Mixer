@@ -25,7 +25,8 @@
     "resources/**/*.js"
   ],
   "assets": [
-		"assets/**/*.xml"
+		"assets/**/*.xml",
+		"assets/**/*.png"
 	],
   "author": "littlebusters <little.busters.reply@gmail.com>",
   "dependencies": {

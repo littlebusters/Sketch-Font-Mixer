@@ -6,13 +6,14 @@
   "identifier": "net.creative-tweet.font-mixer",
   "compatibleVersion": 3,
   "bundleVersion": 1,
-  "icon": "icon.png",
+  "icon": "font-mixer-icon.png",
   "commands": [
     {
       "name": "Font Mixer",
       "identifier": "font-mixer-id",
       "script": "./font-mixer.js",
-      "shortcut": "command control shift f"
+      "shortcut": "command control shift f",
+      "icon": "font-mixer-icon_64.png"
     }
   ],
   "menu": {
