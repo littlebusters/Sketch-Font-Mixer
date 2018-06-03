@@ -65,16 +65,16 @@ export default function(context) {
     webContents.executeJavaScript(`appendFontSize(${fontSize})`);
 
     var nsForcePalt = Array();
-    nsForcePalt[0] = (null === ud.getDefaults('forcepalt')) ? false : ud.getDefaults('forcepalt');
+    nsForcePalt[0] = ud.getDefaults('forcepalt');
     var udForcePalt = convertToJSON(nsForcePalt);
     log(udForcePalt);
     webContents.executeJavaScript(`setDefaultForcePalt(${udForcePalt})`);
 
     var nsTargetStrings = Object();
-				nsTargetStrings['uppercase'] = (null === ud.getDefaults('uppercase')) ? true : ud.getDefaults('uppercase');
-				nsTargetStrings['lowercase'] = (null === ud.getDefaults('lowercase')) ? true : ud.getDefaults('lowercase');
-				nsTargetStrings['number'] = (null === ud.getDefaults('number')) ? true : ud.getDefaults('number');
-				nsTargetStrings['punctuationmark'] = (null === ud.getDefaults('punctuationmark')) ? true : ud.getDefaults('punctuationmark');
+				nsTargetStrings['uppercase'] = ud.getDefaults('uppercase');
+				nsTargetStrings['lowercase'] = ud.getDefaults('lowercase');
+				nsTargetStrings['number'] = ud.getDefaults('number');
+				nsTargetStrings['punctuationmark'] = ud.getDefaults('punctuationmark');
 				nsTargetStrings['hiragana'] = ud.getDefaults('hiragana');
 				nsTargetStrings['katakana'] = ud.getDefaults('katakana');
 				nsTargetStrings['yakumono'] = ud.getDefaults('yakumono');
