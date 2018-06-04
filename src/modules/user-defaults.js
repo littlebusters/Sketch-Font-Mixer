@@ -12,6 +12,7 @@ export const getDefaults = (key) => {
 		defaultPreferences.setObject_forKey('hiragana', false);
 		defaultPreferences.setObject_forKey('katakana', false);
 		defaultPreferences.setObject_forKey('yakumono', false);
+		defaultPreferences.setObject_forKey('custom', false);
 
 		userDefaults.setObject_forKey(defaultPreferences, pluginIdentifier);
 	}

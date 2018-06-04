@@ -78,6 +78,7 @@ export default function(context) {
 				nsTargetStrings['hiragana'] = ud.getDefaults('hiragana');
 				nsTargetStrings['katakana'] = ud.getDefaults('katakana');
 				nsTargetStrings['yakumono'] = ud.getDefaults('yakumono');
+				nsTargetStrings['custom'] = ud.getDefaults('custom');
 		var udTargetStrings = convertToJSON(nsTargetStrings);
 		log(udTargetStrings);
 		webContents.executeJavaScript(`setDefaultTargets(${udTargetStrings})`)
@@ -177,11 +178,7 @@ export default function(context) {
 		log(' forcePalt: ' + forcePalt);
 		ud.setDefaults('forcepalt', forcePalt);
 		for (var target in fmSettings.targetStrings) {
-			log(fmSettings.targetStrings[target]);
-			if('custom' != fmSettings.targetStrings[target]) {
-				log(target);
-				ud.setDefaults(target, fmSettings.targetStrings[target]);
-			}
+			ud.setDefaults(target, fmSettings.targetStrings[target]);
 		}
 
 		log('------------------------------------------------ Finished');
