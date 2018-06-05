@@ -30,6 +30,10 @@ export default function(context) {
 		}
 		if (2 == sel.length) isTwoSelected = true;
 	}
+	const orgnY  = sel[0].frame().y();
+	const orgnH  = sel[0].frame().height();
+	const orgnGH = sel[0].glyphBounds().size.height;
+	const orgnGY = sel[0].glyphBounds().origin.y
 
 	var doc = context.document;
 
@@ -169,6 +173,36 @@ export default function(context) {
 			}
 		}
 		sel[0].setIsEditingText(false);
+
+		// Adjust position
+		log(' FS: ' + fmSettings.fontSize);
+		log(' BL: ' + fmSettings.baseline);
+		log(' orgnH: ' + orgnH);
+		log(' orgnGH: ' + orgnGH);
+		log(' aftrH: ' + sel[0].frame().height());
+		log(' aftrGH: ' + sel[0].glyphBounds().size.height);
+		const heightDiff   = sel[0].frame().height() - orgnH;
+		log(' heightDiff: ' + heightDiff);
+		const boundDiff    = orgnH - orgnGH;
+		log(' boundDiff: ' + boundDiff);
+		const gHeightDiff  = sel[0].glyphBounds().size.height - orgnGH;
+		log(' gHeightDiff: ' + gHeightDiff);
+		const fontSizeDiff = fmSettings.fontSize - fontSize;
+		log(' fontSizeDiff: ' + fontSizeDiff);
+		log(' heightDiff - boundDiff: ' + (heightDiff - boundDiff));
+		const isFSOrgnBigger = (fmSettings.fontSize < fontSize) ? true : false;
+
+		if (2 != sel[0].textBehaviour()) { // 2: fixed alignment
+			if (isFSOrgnBigger && 0 < fmSettings.baseline - fontSizeDiff) {
+				log('  Case 1');
+				sel[0].frame().y = orgnY - heightDiff;
+			} else {
+				log('  Case 2');
+				let offset = (0 > fmSettings.baseline) ? fmSettings.baseline - 0 + 1 : 0;
+				// sel[0].frame().y = orgnY - (heightDiff - boundDiff);
+				sel[0].frame().y = orgnY - (sel[0].glyphBounds().origin.y + gHeightDiff - orgnGY) - offset;
+			}
+		}
 
 		// Set userDefaults
 		if (!isTwoSelected) {
