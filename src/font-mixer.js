@@ -58,7 +58,9 @@ export default function(context) {
     identifier: 'unique.id',
     width: 270,
     height: (isTwoSelected) ? 445 : 478,
-    show: false
+    show: false,
+    x: (ud.getDefaults('windowX')) ? ud.getDefaults('windowX') : null,
+    y: (ud.getDefaults('windowY')) ? ud.getDefaults('windowY') : null
   }
   var browserWindow = new BrowserWindow(options)
 
@@ -138,6 +140,7 @@ export default function(context) {
 
     var replacementRanges = generateReplacementRanges(sel[0].stringValue(), matchPattern);
     log(replacementRanges);
+    log(replacementRanges.length);
     log('-----------< pushMixing ' + "\r");
 
 
@@ -192,7 +195,7 @@ export default function(context) {
 		log(' heightDiff - boundDiff: ' + (heightDiff - boundDiff));
 		const isFSOrgnBigger = (fmSettings.fontSize < fontSize) ? true : false;
 
-		if (2 != sel[0].textBehaviour()) { // 2: fixed alignment
+		if (2 != sel[0].textBehaviour() && 0 != replacementRanges.length) {
 			if (isFSOrgnBigger && 0 < fmSettings.baseline - fontSizeDiff) {
 				log('  Case 1');
 				sel[0].frame().y = orgnY - heightDiff;
@@ -204,6 +207,7 @@ export default function(context) {
 			}
 		}
 
+
 		// Set userDefaults
 		if (!isTwoSelected) {
 			ud.setDefaults('disFont', fmSettings.displayFontName);
@@ -214,6 +218,11 @@ export default function(context) {
 		for (var target in fmSettings.targetStrings) {
 			ud.setDefaults(target, fmSettings.targetStrings[target]);
 		}
+		// Window position
+		const screenH = NSScreen.mainScreen().frame().size.height;
+		const windowPosition = browserWindow.getPosition();
+		ud.setDefaults('windowX', windowPosition[0]);
+		ud.setDefaults('windowY', screenH - (windowPosition[1] + options.height));
 
 		log('------------------------------------------------ Finished');
   })
