@@ -182,13 +182,14 @@ export default function(context) {
 		log(' BL: ' + fmSettings.baseline);
 		log(' orgnH: ' + orgnH);
 		log(' orgnGH: ' + orgnGH);
+		const aftrGH = sel[0].glyphBounds().size.height;
 		log(' aftrH: ' + sel[0].frame().height());
-		log(' aftrGH: ' + sel[0].glyphBounds().size.height);
+		log(' aftrGH: ' + aftrGH);
 		const heightDiff   = sel[0].frame().height() - orgnH;
 		log(' heightDiff: ' + heightDiff);
 		const boundDiff    = orgnH - orgnGH;
 		log(' boundDiff: ' + boundDiff);
-		const gHeightDiff  = sel[0].glyphBounds().size.height - orgnGH;
+		const gHeightDiff  = aftrGH - orgnGH;
 		log(' gHeightDiff: ' + gHeightDiff);
 		const fontSizeDiff = fmSettings.fontSize - fontSize;
 		log(' fontSizeDiff: ' + fontSizeDiff);
@@ -201,8 +202,7 @@ export default function(context) {
 				sel[0].frame().y = orgnY - heightDiff;
 			} else {
 				log('  Case 2');
-				let offset = (0 > fmSettings.baseline) ? fmSettings.baseline - 0 + 1 : 0;
-				// sel[0].frame().y = orgnY - (heightDiff - boundDiff);
+				let offset = (0 > fmSettings.baseline) ? fmSettings.baseline : 0;
 				sel[0].frame().y = orgnY - (sel[0].glyphBounds().origin.y + gHeightDiff - orgnGY) - offset;
 			}
 		}
