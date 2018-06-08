@@ -1,7 +1,7 @@
 import pluginCall from 'sketch-module-web-view/client'
 
 document.addEventListener("contextmenu", function(e) {
-  // e.preventDefault();
+  e.preventDefault();
 });
 
 function sendLog (msg) {
@@ -16,17 +16,17 @@ window.appendOriginalFontName = function (fontName) {
 
 window.appendReplacementFontName = function (fontName) {
 	pluginCall('sendLog', '🏃🏻‍♂️ appendReplacementFontName: ' + fontName);
-	var sect = document.getElementById('replacement-section');
+	var slct = document.getElementById('replacement-section');
 	var base = document.getElementById('size-baseline');
 	var dl   = document.getElementById('replacement');
-	sect.removeChild(dl)
+	slct.removeChild(dl)
 
 	var pragraph = document.createElement('p');
 			pragraph.setAttribute('id', 'weightlist');
 			pragraph.setAttribute('class', 'fixed');
 			pragraph.innerHTML = fontName.toString().replace(/-/g, ' ');
-	// sect.appendChild(pragraph);
-	sect.insertBefore(pragraph, base);
+	// slct.appendChild(pragraph);
+	slct.insertBefore(pragraph, base);
 }
 
 window.appendFontSize = function (fontSize) {
