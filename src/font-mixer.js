@@ -40,13 +40,13 @@ export default function(context) {
 	// Get font value
 	var orgFont  = Array(sel[0].fontPostscriptName());
 	var fontSize = sel[0].fontSize();
-	log('🖌 orgFont: ' + orgFont + ' / ' + fontSize);
+	// log('🖌 orgFont: ' + orgFont + ' / ' + fontSize);
 	var originalFont = convertToJSON(orgFont);
 
 	var repFont = Array();
 	if (2 == sel.length) {
 		repFont[0] = sel[1].fontPostscriptName();
-		log('🖌 repFont: ' + repFont);
+		// log('🖌 repFont: ' + repFont);
 	}
 	var replacementFont = convertToJSON(repFont);
 
@@ -73,7 +73,7 @@ export default function(context) {
     var nsForcePalt = Array();
     nsForcePalt[0] = ud.getDefaults('forcepalt');
     var udForcePalt = convertToJSON(nsForcePalt);
-    log(udForcePalt);
+    // log(udForcePalt);
     webContents.executeJavaScript(`setDefaultForcePalt(${udForcePalt})`);
 
     var nsTargetStrings = Object();
@@ -86,18 +86,18 @@ export default function(context) {
 				nsTargetStrings['yakumono'] = ud.getDefaults('yakumono');
 				nsTargetStrings['custom'] = ud.getDefaults('custom');
 		var udTargetStrings = convertToJSON(nsTargetStrings);
-		log(udTargetStrings);
+		// log(udTargetStrings);
 		webContents.executeJavaScript(`setDefaultTargets(${udTargetStrings})`)
 
     if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
 			let nsFonts = Array();
-			log(' generateFontList');
+			// log(' generateFontList');
 			nsFonts[0] = ud.getDefaults('disFont');
 			nsFonts[1] = ud.getDefaults('repFont');
 			var udFonts = convertToJSON(nsFonts)
-			log(udFonts)
+			// log(udFonts)
 	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udDisFont.toString()}, ${udRepFont.toString()})`);
 	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udFonts})`);
 	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, 'sss', 'ssss')`);
@@ -128,20 +128,20 @@ export default function(context) {
 	// Exec font mix
   webContents.on('pushMixing', (fmSettings) => {
     log('pushMixing ----------->');
-    log(' selectFont: ' + fmSettings.selectFont);
-    log(' fontSize: ' + fmSettings.fontSize);
-    log(' targetStrings: ' + fmSettings.targetStrings);
-    log(' baseline: ' + fmSettings.baseline);
-    log(' force palt: ' + fmSettings.forcepalt);
+    // log(' selectFont: ' + fmSettings.selectFont);
+    // log(' fontSize: ' + fmSettings.fontSize);
+    // log(' targetStrings: ' + fmSettings.targetStrings);
+    // log(' baseline: ' + fmSettings.baseline);
+    // log(' force palt: ' + fmSettings.forcepalt);
 
     var matchPattern = integrateMatchPattern(fmSettings.targetStrings, fmSettings.customString);
-    log(' matchPattern:');
-    log(matchPattern);
+    // log(' matchPattern:');
+    // log(matchPattern);
 
     var replacementRanges = generateReplacementRanges(sel[0].stringValue(), matchPattern);
-    log(replacementRanges);
-    log(replacementRanges.length);
-    log('-----------< pushMixing ' + "\r");
+    // log(replacementRanges);
+    // log(replacementRanges.length);
+    // log('-----------< pushMixing ' + "\r");
 
 
 		log('applyReplacement ----------->');
@@ -178,30 +178,30 @@ export default function(context) {
 		sel[0].setIsEditingText(false);
 
 		// Adjust position
-		log(' FS: ' + fmSettings.fontSize);
-		log(' BL: ' + fmSettings.baseline);
-		log(' orgnH: ' + orgnH);
-		log(' orgnGH: ' + orgnGH);
+		// log(' FS: ' + fmSettings.fontSize);
+		// log(' BL: ' + fmSettings.baseline);
+		// log(' orgnH: ' + orgnH);
+		// log(' orgnGH: ' + orgnGH);
 		const aftrGH = sel[0].glyphBounds().size.height;
-		log(' aftrH: ' + sel[0].frame().height());
-		log(' aftrGH: ' + aftrGH);
+		// log(' aftrH: ' + sel[0].frame().height());
+		// log(' aftrGH: ' + aftrGH);
 		const heightDiff   = sel[0].frame().height() - orgnH;
-		log(' heightDiff: ' + heightDiff);
+		// log(' heightDiff: ' + heightDiff);
 		const boundDiff    = orgnH - orgnGH;
-		log(' boundDiff: ' + boundDiff);
+		// log(' boundDiff: ' + boundDiff);
 		const gHeightDiff  = aftrGH - orgnGH;
-		log(' gHeightDiff: ' + gHeightDiff);
+		// log(' gHeightDiff: ' + gHeightDiff);
 		const fontSizeDiff = fmSettings.fontSize - fontSize;
-		log(' fontSizeDiff: ' + fontSizeDiff);
-		log(' heightDiff - boundDiff: ' + (heightDiff - boundDiff));
+		// log(' fontSizeDiff: ' + fontSizeDiff);
+		// log(' heightDiff - boundDiff: ' + (heightDiff - boundDiff));
 		const isFSOrgnBigger = (fmSettings.fontSize < fontSize) ? true : false;
 
 		if (2 != sel[0].textBehaviour() && 0 != replacementRanges.length) {
 			if (isFSOrgnBigger && 0 < fmSettings.baseline - fontSizeDiff) {
-				log('  Case 1');
+				// log('  Case 1');
 				sel[0].frame().y = orgnY - heightDiff;
 			} else {
-				log('  Case 2');
+				// log('  Case 2');
 				let offset = (0 > fmSettings.baseline) ? fmSettings.baseline : 0;
 				sel[0].frame().y = orgnY - (sel[0].glyphBounds().origin.y + gHeightDiff - orgnGY) - offset;
 			}
@@ -213,7 +213,7 @@ export default function(context) {
 			ud.setDefaults('disFont', fmSettings.displayFontName);
 			ud.setDefaults('repFont', fmSettings.selectFont);
 		}
-		log(' forcePalt: ' + forcePalt);
+		// log(' forcePalt: ' + forcePalt);
 		ud.setDefaults('forcepalt', forcePalt);
 		for (var target in fmSettings.targetStrings) {
 			ud.setDefaults(target, fmSettings.targetStrings[target]);
@@ -232,7 +232,7 @@ export default function(context) {
 
   // Generate match pattern for regexp
   function integrateMatchPattern (targetStrings, customString) {
-		log('integrateMatchPattern ---------->');
+		// log('integrateMatchPattern ---------->');
 		var matchPattern = '[';
 		if (targetStrings.uppercase) matchPattern += '\\u0041-\\u005A\\uFF21-\\uFF3A';
 		if (targetStrings.lowercase) matchPattern += '\\u0061-\\u007A\\uFF41-\\uFF5A';
@@ -247,13 +247,13 @@ export default function(context) {
 			matchPattern += customString.replace(/%/g, '\\');
 		}
 		matchPattern += ']';
-		log('----------< integrateMatchPattern');
+		// log('----------< integrateMatchPattern');
 
 		return matchPattern;
   }
 
   function generateReplacementRanges (textString, matchPattern) {
-		log('generateReplacementRanges ---------->');
+		// log('generateReplacementRanges ---------->');
 		var replacementRanges = Array();
 		var regex = new RegExp(matchPattern);
 		var startPoint = 0;
@@ -285,7 +285,7 @@ export default function(context) {
 			}
 		}
 		// log(replacementRanges);
-		log('----------< generateReplacementRanges');
+		// log('----------< generateReplacementRanges');
 		return replacementRanges;
   }
 }

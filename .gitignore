@@ -16,3 +16,4 @@ npm-debug.log
 UI
 
 .editorconfig
+package-lock.json

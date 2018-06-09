@@ -1,5 +1,7 @@
 # Font Mixer - Sketch Plugin
 
+![](https://user-images.githubusercontent.com/1303440/41186655-22416cb4-6bd5-11e8-8fd7-d0aa087e1bce.png)
+
 This plugin can apply other fonts for each character type of Text Layer. ([README in :jp:](#font-mixer---sketch-plugin-ja))
 
 ## Usage

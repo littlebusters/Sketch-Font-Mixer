@@ -103,10 +103,10 @@ window.generateWeightList = function (ws, wl, ud) {
 window.fontWeightList = [];
 window.setFontWeight = function (fontweight) {
 	pluginCall('sendLog', '🏃🏻‍♂️ setFontWeight');
-	pluginCall('sendLog', ' before: ' + fontweight);
+	// pluginCall('sendLog', ' before: ' + fontweight);
 	window.fontWeightList = fontweight;
-	pluginCall('sendLog', ' after : ' + fontWeightList);
-	pluginCall('sendLog', ' fontWeightList.length: ' + fontWeightList.length);
+	// pluginCall('sendLog', ' after : ' + fontWeightList);
+	// pluginCall('sendLog', ' fontWeightList.length: ' + fontWeightList.length);
 }
 
 window.sendMixingSetting = function () {
@@ -117,7 +117,7 @@ window.sendMixingSetting = function () {
 }
 
 window.setDefaultForcePalt = function(fp) {
-	pluginCall('sendLog', ' setDefaultForcePalt : ' + fp[0]);
+	// pluginCall('sendLog', ' setDefaultForcePalt : ' + fp[0]);
 	if (true === fp[0]) {
 		document.getElementById('repfont-force-palt__value').setAttribute('checked', 'checked');
 	}

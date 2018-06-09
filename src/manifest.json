@@ -1,6 +1,6 @@
 {
 	"name": "Font Mixer",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description" : "This plugin can apply other fonts for each character type of Text Layer.",
 	"author": "littlebusters",
   "identifier": "net.creative-tweet.font-mixer",
@@ -23,5 +23,5 @@
       "font-mixer-id"
     ]
   },
-	"appcast": "https://creative-tweet.net/downloads/fm/update.xml"
+  "appcast": "https://raw.githubusercontent.com/littlebusters/Sketch-Font-Mixer/master/.appcast.xml"
 }
