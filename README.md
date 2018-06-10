@@ -34,7 +34,7 @@ You can find this plugin in "[Sketchpacks](https://sketchpacks.com/)". Type `fon
 
 ### with Manualy
 
-Or, [Download the plugin zip](https://github.com/littlebusters/Sketch-Font-Mixer/archive/master.zip) and unzip. Double-click the `Font Mixer.sketchplugin` in the folder to install it.
+Or, Download the plugin zip form [Latest release](https://github.com/littlebusters/Sketch-Font-Mixer/releases/latest) and unzip. Double-click the `Font Mixer.sketchplugin` in the folder to install it.
 
 ## License
 
@@ -75,8 +75,7 @@ Sketch Runnerから`install`コマンドを実行し、`font mixer`で検索し�
 
 ### 手動で
 
-または、[ZIPファイルをダウンロード](https://github.com/littlebusters/skecth-font-mixer/archive/master.zip)・伸張し、「Switch Text Spacing.sketchplugin」をダブルクリックしてインストールできます。
-
+または、[リリースページ](https://github.com/littlebusters/Sketch-Font-Mixer/releases/latest)からZIPファイルをダウンロード・伸張し、「Font Mixer.sketchplugin」をダブルクリックしてインストールできます。
 
 ## ライセンス
 
