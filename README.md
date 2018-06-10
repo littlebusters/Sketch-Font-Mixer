@@ -4,6 +4,8 @@
 
 This plugin can apply other fonts for each character type of Text Layer. ([README in :jp:](#font-mixer---sketch-plugin-ja))
 
+TL;DR: [Font Mixer - Sketch plugin](https://v.usetapes.com/WLvTIsA5Pl)
+
 ## Usage
 
 ### Font select mode
