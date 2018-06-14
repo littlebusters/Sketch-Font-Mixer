@@ -26,16 +26,6 @@ TL;DR: [Font Mixer - Sketch plugin](https://v.usetapes.com/WLvTIsA5Pl)
 
 ## Installation
 
-### with Sketch Runner
-
-With Sketch Runner, just go to the `install` command and search for `font mixer`. Runner allows you to manage plugins and do much more to speed up your workflow in Sketch. [Download Runner here](http://www.sketchrunner.com).
-
-### with Sketchpacks
-
-You can find this plugin in "[Sketchpacks](https://sketchpacks.com/)". Type `font mixer` on the search box, then you click "INSTALL" button.
-
-### with Manualy
-
 Or, Download the plugin zip form [Latest release](https://github.com/littlebusters/Sketch-Font-Mixer/releases/latest) and unzip. Double-click the `Font Mixer.sketchplugin` in the folder to install it.
 
 ## License
@@ -66,16 +56,6 @@ The MIT License (MIT). See License.
 1. Mixign! ボタンをクリックしてください。
 
 ## インストール
-
-### Sketch Runnerで
-
-Sketch Runnerから`install`コマンドを実行し、`font mixer`で検索してインストールしてください。[Sketch Runnerのダウンロードこちら](http://www.sketchrunner.com)。
-
-### Sketchpacksで
-
-[Sketchpacks](https://sketchpacks.com/)の検索ボックスで、`font mixer`と検索してインストールしてください。
-
-### 手動で
 
 または、[リリースページ](https://github.com/littlebusters/Sketch-Font-Mixer/releases/latest)からZIPファイルをダウンロード・伸張し、「Font Mixer.sketchplugin」をダブルクリックしてインストールできます。
 
