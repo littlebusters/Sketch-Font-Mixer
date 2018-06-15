@@ -32,5 +32,6 @@
   "author": "littlebusters <little.busters.reply@gmail.com>",
   "dependencies": {
     "sketch-module-web-view": "^1.1.5"
-  }
+  },
+  "repository": "https://github.com/littlebusters/Sketch-Font-Mixer"
 }

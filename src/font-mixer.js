@@ -63,6 +63,7 @@ export default function(context) {
     y: (ud.getDefaults('windowY')) ? ud.getDefaults('windowY') : null
   }
   var browserWindow = new BrowserWindow(options)
+  const webContents = browserWindow.webContents
 
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
@@ -73,7 +74,7 @@ export default function(context) {
     var nsForcePalt = Array();
     nsForcePalt[0] = ud.getDefaults('forcepalt');
     var udForcePalt = convertToJSON(nsForcePalt);
-    // log(udForcePalt);
+
     webContents.executeJavaScript(`setDefaultForcePalt(${udForcePalt})`);
 
     var nsTargetStrings = Object();
@@ -86,25 +87,19 @@ export default function(context) {
 				nsTargetStrings['yakumono'] = ud.getDefaults('yakumono');
 				nsTargetStrings['custom'] = ud.getDefaults('custom');
 		var udTargetStrings = convertToJSON(nsTargetStrings);
-		// log(udTargetStrings);
+
 		webContents.executeJavaScript(`setDefaultTargets(${udTargetStrings})`)
 
     if (isTwoSelected) {
 			webContents.executeJavaScript(`appendReplacementFontName(${replacementFont})`);
 		} else {
 			let nsFonts = Array();
-			// log(' generateFontList');
 			nsFonts[0] = ud.getDefaults('disFont');
 			nsFonts[1] = ud.getDefaults('repFont');
-			var udFonts = convertToJSON(nsFonts)
-			// log(udFonts)
-	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udDisFont.toString()}, ${udRepFont.toString()})`);
+			var udFonts = convertToJSON(nsFonts);
 	    webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, ${udFonts})`);
-	    // webContents.executeJavaScript(`generateFontList(${fontlist_w_json}, 'sss', 'ssss')`);
 	  }
   })
-
-  const webContents = browserWindow.webContents
 
   // print a message when send value from WebView
 	webContents.on('sendLog', (msg) => {
@@ -128,21 +123,11 @@ export default function(context) {
 	// Exec font mix
   webContents.on('pushMixing', (fmSettings) => {
     log('pushMixing ----------->');
-    // log(' selectFont: ' + fmSettings.selectFont);
-    // log(' fontSize: ' + fmSettings.fontSize);
-    // log(' targetStrings: ' + fmSettings.targetStrings);
-    // log(' baseline: ' + fmSettings.baseline);
-    // log(' force palt: ' + fmSettings.forcepalt);
 
     var matchPattern = integrateMatchPattern(fmSettings.targetStrings, fmSettings.customString);
-    // log(' matchPattern:');
-    // log(matchPattern);
 
     var replacementRanges = generateReplacementRanges(sel[0].stringValue(), matchPattern);
-    // log(replacementRanges);
-    // log(replacementRanges.length);
     // log('-----------< pushMixing ' + "\r");
-
 
 		log('applyReplacement ----------->');
 		var applyFont = NSFont.fontWithName_size_(fmSettings.selectFont.toString(), fmSettings.fontSize);
@@ -177,31 +162,17 @@ export default function(context) {
 		}
 		sel[0].setIsEditingText(false);
 
-		// Adjust position
-		// log(' FS: ' + fmSettings.fontSize);
-		// log(' BL: ' + fmSettings.baseline);
-		// log(' orgnH: ' + orgnH);
-		// log(' orgnGH: ' + orgnGH);
 		const aftrGH = sel[0].glyphBounds().size.height;
-		// log(' aftrH: ' + sel[0].frame().height());
-		// log(' aftrGH: ' + aftrGH);
 		const heightDiff   = sel[0].frame().height() - orgnH;
-		// log(' heightDiff: ' + heightDiff);
 		const boundDiff    = orgnH - orgnGH;
-		// log(' boundDiff: ' + boundDiff);
 		const gHeightDiff  = aftrGH - orgnGH;
-		// log(' gHeightDiff: ' + gHeightDiff);
 		const fontSizeDiff = fmSettings.fontSize - fontSize;
-		// log(' fontSizeDiff: ' + fontSizeDiff);
-		// log(' heightDiff - boundDiff: ' + (heightDiff - boundDiff));
 		const isFSOrgnBigger = (fmSettings.fontSize < fontSize) ? true : false;
 
 		if (2 != sel[0].textBehaviour() && 0 != replacementRanges.length) {
 			if (isFSOrgnBigger && 0 < fmSettings.baseline - fontSizeDiff) {
-				// log('  Case 1');
 				sel[0].frame().y = orgnY - heightDiff;
 			} else {
-				// log('  Case 2');
 				let offset = (0 > fmSettings.baseline) ? fmSettings.baseline : 0;
 				sel[0].frame().y = orgnY - (sel[0].glyphBounds().origin.y + gHeightDiff - orgnGY) - offset;
 			}
@@ -213,7 +184,6 @@ export default function(context) {
 			ud.setDefaults('disFont', fmSettings.displayFontName);
 			ud.setDefaults('repFont', fmSettings.selectFont);
 		}
-		// log(' forcePalt: ' + forcePalt);
 		ud.setDefaults('forcepalt', forcePalt);
 		for (var target in fmSettings.targetStrings) {
 			ud.setDefaults(target, fmSettings.targetStrings[target]);
@@ -260,7 +230,6 @@ export default function(context) {
 		var isTarget = 0;
 
 		for (var i = 0; i < textString.length(); i++) {
-			// log(textString.charAt(i));
 			if (regex.test(textString.charAt(i))) {
 				if (!isTarget) {
 					isTarget = 1;
@@ -270,7 +239,6 @@ export default function(context) {
 			} else {
 				if (isTarget) {
 					isTarget = 0;
-					// replacementRanges.push(new Array(startPoint, i - startPoint));
 					replacementRanges.push(NSMakeRange(startPoint, i - startPoint));
 				}
 				// log(' -> ❎ Not Target:: i=' + i + ' / startPoint= ' + startPoint);
@@ -279,12 +247,10 @@ export default function(context) {
 			if (textString.length() - 1 == i) {
 				// log(' -> End of String');
 				if (isTarget) {
-					// replacementRanges.push(new Array(startPoint, i + 1 - startPoint));
 					replacementRanges.push(NSMakeRange(startPoint, i + 1 - startPoint));
 				}
 			}
 		}
-		// log(replacementRanges);
 		// log('----------< generateReplacementRanges');
 		return replacementRanges;
   }
