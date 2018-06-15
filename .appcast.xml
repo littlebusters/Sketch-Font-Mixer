@@ -2,6 +2,9 @@
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
     <item>
+      <enclosure url="https://github.com/littlebusters/Sketch-Font-Mixer/releases/download/v0.6.8/font-mixer.sketchplugin.zip" sparkle:version="0.6.8"/>
+    </item>
+    <item>
       <enclosure url="https://github.com/littlebusters/Sketch-Font-Mixer/releases/download/v0.6.7/font-mixer.sketchplugin.zip" sparkle:version="0.6.7"/>
     </item>
     <item>
