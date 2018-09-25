@@ -14,26 +14,32 @@ export default function(context) {
 
 	// Check selection
 	var sel = context.selection;
+	log('🖌 Selection: ' + sel.length + ' Layer(s).');
 	var isTwoSelected = false;
 	if (2 < sel.length) {
+		// log('🖌 Selection: ' + sel.length);
 		UI.message('Please select one or more and less than two text layers for the object.')
 		return false;
 	} else if (1 > sel.length) {
+		// log('🖌 Selection: ' + sel.length);
 		UI.message('Please select one or more and less than two text layers for the object.')
 		return false;
 	} else {
 		for (var i = sel.length - 1; i >= 0; i--) {
 			if ('MSTextLayer' != sel[i].class()) {
+				// log('🖌 isMSTextLayer: false');
 				UI.message('Please select text layer(s).');
 				return false;
 			}
 		}
+		log('🖌 Selection check: ⭕️');
 		if (2 == sel.length) isTwoSelected = true;
 	}
 	const orgnY  = sel[0].frame().y();
 	const orgnH  = sel[0].frame().height();
 	const orgnGH = sel[0].glyphBounds().size.height;
-	const orgnGY = sel[0].glyphBounds().origin.y
+	const orgnGY = sel[0].glyphBounds().origin.y;
+	// log('🖌 orgnY: ' + orgnY + ' / orgnH: ' + orgnH + ' / orgnGH: ' + orgnGH + ' / orgnGY: ' + orgnGY);
 
 	var doc = context.document;
 
@@ -44,16 +50,19 @@ export default function(context) {
 	var originalFont = convertToJSON(orgFont);
 
 	var repFont = Array();
-	if (2 == sel.length) {
-		repFont[0] = sel[1].fontPostscriptName();
+	// log('🖌 Replacement font check');
+	if (isTwoSelected) {
 		// log('🖌 repFont: ' + repFont);
+		repFont[0] = sel[1].fontPostscriptName();
 	}
+	// log('🖌 Done✅: Replacement font check');
 	var replacementFont = convertToJSON(repFont);
 
 	var fontList = NSFontManager.sharedFontManager().availableFontFamilies();
 	var fontlist_w_json = convertToJSON(fontList);
 	
 	// WebView options
+	// log('🖌 WebView options');
   const options = {
     identifier: 'unique.id',
     width: 270,
@@ -62,13 +71,19 @@ export default function(context) {
     x: (ud.getDefaults('windowX')) ? ud.getDefaults('windowX') : null,
     y: (ud.getDefaults('windowY')) ? ud.getDefaults('windowY') : null
   }
-  var browserWindow = new BrowserWindow(options)
-  const webContents = browserWindow.webContents
+	// log('🖌 -> BrowserWindow Instance');
+  var browserWindow = new BrowserWindow(options);
+	// log('🖌 -> webContents');
+  const webContents = browserWindow.webContents;
+	// log('🖌 Done✅: WebView options');
 
   // only show the window when the page has loaded
   browserWindow.once('ready-to-show', () => {
+		// log('🖌 Show Panel');
     browserWindow.show();
+    // log('🖌 -> executeJavascript');
     webContents.executeJavaScript(`appendOriginalFontName(${originalFont})`);
+    // log('🖌 -> executeJavascript');
     webContents.executeJavaScript(`appendFontSize(${fontSize})`);
 
     var nsForcePalt = Array();
@@ -144,6 +159,7 @@ export default function(context) {
 		}
 
 		sel[0].setIsEditingText(true);
+		// log('🖌 Apply settings');
 		for (var i = 0; i < replacementRanges.length; i++) {
 			sel[0].addAttribute_value_forRange_(
 				NSFontAttributeName, 
@@ -160,6 +176,7 @@ export default function(context) {
 					replacementRanges[i]);
 			}
 		}
+		// log('🖌 Done✅: Apply settings');
 		sel[0].setIsEditingText(false);
 
 		const aftrGH = sel[0].glyphBounds().size.height;
@@ -169,6 +186,7 @@ export default function(context) {
 		const fontSizeDiff = fmSettings.fontSize - fontSize;
 		const isFSOrgnBigger = (fmSettings.fontSize < fontSize) ? true : false;
 
+		// log('🖌 Position offset');
 		if (2 != sel[0].textBehaviour() && 0 != replacementRanges.length) {
 			if (isFSOrgnBigger && 0 < fmSettings.baseline - fontSizeDiff) {
 				sel[0].frame().y = orgnY - heightDiff;
@@ -177,6 +195,7 @@ export default function(context) {
 				sel[0].frame().y = orgnY - (sel[0].glyphBounds().origin.y + gHeightDiff - orgnGY) - offset;
 			}
 		}
+		// log('🖌 Done✅: Position offset');
 
 
 		// Set userDefaults
@@ -257,6 +276,7 @@ export default function(context) {
 }
 
 function convertToJSON (string) {
+	// log('convertToJSON');
 	var data = NSJSONSerialization.dataWithJSONObject_options_error_(string, 0, nil);
 	var json = NSString.alloc().initWithData_encoding_(data, 4);
 

@@ -1,31 +1,25 @@
 const pluginIdentifier = 'net.creative-tweet.font-mixer';
 export const getDefaults = (key) => {
-  var userDefaults = NSUserDefaults.standardUserDefaults();
-  if (!userDefaults.dictionaryForKey(pluginIdentifier)) {
-		var defaultPreferences = NSUserDefaults.alloc().initWithSuiteName(pluginIdentifier);
-		
-    defaultPreferences.setObject_forKey('forcepalt', false);
-		defaultPreferences.setObject_forKey('uppercase', true);
-		defaultPreferences.setObject_forKey('lowercase', true);
-		defaultPreferences.setObject_forKey('number', true);
-		defaultPreferences.setObject_forKey('punctuationmark', true);
-		defaultPreferences.setObject_forKey('hiragana', false);
-		defaultPreferences.setObject_forKey('katakana', false);
-		defaultPreferences.setObject_forKey('yakumono', false);
-		defaultPreferences.setObject_forKey('custom', false);
+  var userDefaultsStore = NSUserDefaults.alloc().initWithSuiteName(pluginIdentifier);
+  if (!userDefaultsStore.objectForKey('setdefaults')) {		
+    userDefaultsStore.setBool_forKey(true,  'setdefaults');
+    userDefaultsStore.setBool_forKey(false, 'forcepalt');
+		userDefaultsStore.setBool_forKey(true,  'uppercase');
+		userDefaultsStore.setBool_forKey(true,  'lowercase');
+		userDefaultsStore.setBool_forKey(true,  'number');
+		userDefaultsStore.setBool_forKey(true,  'punctuationmark');
+		userDefaultsStore.setBool_forKey(false, 'hiragana');
+		userDefaultsStore.setBool_forKey(false, 'katakana');
+		userDefaultsStore.setBool_forKey(false, 'yakumono');
+		userDefaultsStore.setBool_forKey(false, 'custom');
 
-		userDefaults.setObject_forKey(defaultPreferences, pluginIdentifier);
+		userDefaultsStore.synchronize();
 	}
-	return userDefaults.dictionaryForKey(pluginIdentifier).objectForKey(key);
+	return userDefaultsStore.objectForKey(key);
 }
 
 export const setDefaults = (key, value) => {
-    var userDefaults = NSUserDefaults.standardUserDefaults();
-    if (!userDefaults.dictionaryForKey(pluginIdentifier)) {
-        var preferences = NSMutableDictionary.alloc().init();
-    } else {
-        var preferences = NSMutableDictionary.dictionaryWithDictionary(userDefaults.dictionaryForKey(pluginIdentifier));
-    }
-    preferences.setObject_forKey(value, key);
-    userDefaults.setObject_forKey(preferences, pluginIdentifier);
+    var userDefaultsStore = NSUserDefaults.alloc().initWithSuiteName(pluginIdentifier);
+    userDefaultsStore.setObject_forKey(value, key);
+    userDefaultsStore.synchronize();
 }
