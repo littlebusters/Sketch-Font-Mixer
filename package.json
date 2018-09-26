@@ -1,6 +1,6 @@
 {
   "name": "sketch-font-mixer",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "This plugin can apply other fonts for each character type of Text Layer.",
   "engines": {
     "sketch": ">=3.0"
