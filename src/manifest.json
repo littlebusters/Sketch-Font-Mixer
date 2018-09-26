@@ -1,6 +1,6 @@
 {
 	"name": "Font Mixer",
-  "version": "0.6.8",
+  "version": "0.8.1",
   "description" : "This plugin can apply other fonts for each character type of Text Layer.",
 	"author": "littlebusters",
   "identifier": "net.creative-tweet.font-mixer",
